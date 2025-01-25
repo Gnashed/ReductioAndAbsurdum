@@ -1,5 +1,25 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+// ===================================== DATA SOURCE =====================================
+
+using ReductioAndAbsurdum;
+
+List<MagicProduct> magicProducts = new List<MagicProduct>()
+{
+    new MagicProduct(1, "Magic Wand", "Tool", 250.00M, true),
+    new MagicProduct(2, "Spell Book", "Tool", 19.99M, true),
+    new MagicProduct(3, "Crystal ball", "Tool", 100.00M, true),
+    new MagicProduct(4, "Force Field", "Weapon/Defense", 750.00M, true),
+    new MagicProduct(5, "Shape-shifting outfit", "Weapon/Defense", 10_000.00M, true),
+    new MagicProduct(6, "Invisible Cloak", "Weapon/Defense", 1_500.00M, true),
+    new MagicProduct(7, "Reverso - reverses time by a maximum of 5 seconds, once per Earth year.", "spells", 100.00M, true),
+    new MagicProduct(8, "Extendu-kno - Increases learning and memorization x5 for one hour each month.", "spells", 299.99M, true),
+    new MagicProduct(9, "Anti Peppibism - Gives your victims immense heartburn, indigestion, and diarrhea ", "spells", 59.00M, true),
+    new MagicProduct(10, "Roach (from planet Earth)", "Food", 0.99M, true),
+    new MagicProduct(11, "Plant-based soup with herbs and spices from planet Zoriah.", "Food", 50.00M, true),
+    new MagicProduct(12, "Rare BBQ Gooper thighs from planet Mars. (preserved since the Martian War of 2799).", "Food", 1250.00M, true),
+};
+
 // ===================================== MENU =====================================
 
 void MagicMenu()
@@ -16,7 +36,7 @@ void MagicMenu()
         Console.WriteLine("e: <Feature coming soon>");
         Console.WriteLine("f: <Feature coming soon>");
         Console.WriteLine("g: <Feature coming soon>");
-        Console.WriteLine("exit: Exit the program.");
+        Console.WriteLine("q: Exit the program.");
         Console.WriteLine();
         string? response = Console.ReadLine()?.Trim();
 
@@ -29,7 +49,7 @@ void MagicMenu()
                 continue;
             case "b":
                 Console.Clear();
-                Console.WriteLine("Please provide the details about the product:");
+                CreateProduct();
                 continue;
             case "c":
                 Console.Clear();
@@ -51,7 +71,7 @@ void MagicMenu()
                 Console.Clear();
                 Console.WriteLine("We know you are excited. New features are coming soon!");
                 continue;
-            case "exit":
+            case "q":
                 Console.WriteLine("Terminating program...");
                 break;
             default:
@@ -72,8 +92,8 @@ void CreateProduct()
     {
         Console.WriteLine("Please enter the following information about the product:");
         
-        Console.Write("Product name");
-        string productName = Console.ReadLine();
+        Console.Write("Product name: ");
+        string? productName = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(productName))
         {
             Console.WriteLine("Please enter a valid product name.");
@@ -81,25 +101,36 @@ void CreateProduct()
         }
         
         Console.Write("Product type: ");
-        string productType = Console.ReadLine();
+        string? productType = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(productType))
         {
-            Console.WriteLine("Please enter a valid product type.");
+            Console.WriteLine("Please enter something about the product type.");
             continue;
         }
         
-        Console.Write("How much are you wanting? Enter a dollar value. Ex. 29.99: ");
-        decimal productPrice;
-        if (decimal.TryParse(Console.ReadLine(), out productPrice))
+        Console.Write("How much should this item cost? Enter a dollar value. Ex. 29.99: ");
+        if (!decimal.TryParse(Console.ReadLine(), out var productPrice))
         {
             Console.WriteLine("Please enter a valid product type.");
             continue;
         }
         
         // Process information.
+        Console.WriteLine("Test variables: ");
+        Console.WriteLine($"{(nameof(productName))}: {productName}");
+        Console.WriteLine($"{(nameof(productType))}: {productType}");
+        Console.WriteLine($"{(nameof(productPrice))}: {productPrice}");
         
-        
+        // Payload
+        MagicProduct payload =
+            new MagicProduct((magicProducts.Count + 1), productName, productType, productPrice, true);
+
         // Create a new record.
+        magicProducts.Add(payload);
+        
+        // Confirmation.
+        Console.WriteLine($"{payload.ProductName} was successfully added to the inventory.");
+        break;
     }
 };
 
