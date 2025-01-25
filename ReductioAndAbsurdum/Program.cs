@@ -140,7 +140,7 @@ void DisplayProducts()
 {
     foreach (MagicProduct product in magicProducts)
     {
-        Console.WriteLine($"{product.ProductName} {(product.InStock ? "---- IN STOCK" : "---- SOLD OUT")}");
+        Console.WriteLine($"{product.ProductName} {(product.InStock ? $"---- IN STOCK. Price is {product.Price}" : "---- SOLD OUT")}.");
     }
 }
 
@@ -179,6 +179,43 @@ void UpdateProduct()
         {
             Console.WriteLine("Invalid entry. Please pick the number that corresponds to what you are trying to update.");
             continue;
+        }
+        
+        switch (fieldToUpdate)
+        {
+            case "1":
+                Console.WriteLine($"Enter a new product name: ");
+                string? newProductName = Console.ReadLine()?.Trim();
+                if (string.IsNullOrWhiteSpace(newProductName))
+                {
+                    Console.WriteLine("Please enter a valid product name.");
+                    continue;
+                }
+                // Update record's product name.
+                magicProducts[counter].ProductName = newProductName;
+                break;
+            case "2":
+                Console.WriteLine($"Enter a new product type: ");
+                string? newProductType = Console.ReadLine()?.Trim();
+                if (string.IsNullOrWhiteSpace(newProductType))
+                {
+                    Console.WriteLine("Please enter a valid product type.");
+                    continue;
+                }
+                // Update record's product type.
+                magicProducts[counter].ProductTypeId = newProductType;
+                break;
+            case "3":
+                Console.WriteLine($"Enter a new product price: ");
+                string? newPrice = Console.ReadLine()?.Trim();
+                if (string.IsNullOrWhiteSpace(newPrice) || !decimal.TryParse(newPrice, out _))
+                {
+                    Console.WriteLine("Please enter a valid product price. Must be a decimal number. Ex. 19.99");
+                    continue;
+                }
+                // Update record's price.
+                magicProducts[counter].Price = Convert.ToDecimal(newPrice);
+                break;
         }
 
         // patchPayload, update record with the new info.
