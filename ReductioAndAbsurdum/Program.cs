@@ -14,8 +14,8 @@ List<MagicProduct> magicProducts = new List<MagicProduct>()
     new MagicProduct(6, "Invisible Cloak", "Weapon/Defense", 1_500.00M, true),
     new MagicProduct(7, "Reverso - reverses time by a maximum of 5 seconds, once per Earth year.", "spells", 100.00M, true),
     new MagicProduct(8, "Extendu-kno - Increases learning and memorization x5 for one hour each month.", "spells", 299.99M, true),
-    new MagicProduct(9, "Anti Peppibism - Gives your victims immense heartburn, indigestion, and diarrhea ", "spells", 59.00M, true),
-    new MagicProduct(10, "Roach (from planet Earth)", "Food", 0.99M, true),
+    new MagicProduct(9, "Anti Peppibism - Gives your victims immense heartburn, indigestion, and diarrhea. ", "spells", 59.00M, true),
+    new MagicProduct(10, "Earth Roach", "Food", 0.99M, true),
     new MagicProduct(11, "Plant-based soup with herbs and spices from planet Zoriah.", "Food", 50.00M, true),
     new MagicProduct(12, "Rare BBQ Gooper thighs from planet Mars. (preserved since the Martian War of 2799).", "Food", 1250.00M, true),
 };
@@ -46,6 +46,7 @@ void MagicMenu()
             case "a":
                 Console.Clear();
                 Console.WriteLine("Now viewing all products:");
+                DisplayProducts();
                 continue;
             case "b":
                 Console.Clear();
@@ -133,6 +134,14 @@ void CreateProduct()
         break;
     }
 };
+
+void DisplayProducts()
+{
+    foreach (MagicProduct product in magicProducts)
+    {
+        Console.WriteLine($"{product.ProductName} {(product.InStock ? "---- IN STOCK" : "---- SOLD OUT")}");
+    }
+}
 
 // ==================== STARTUP GREETING AND PROMPT USER TO MAKE A SELECTION IN THE MENU. ====================
 
