@@ -1,10 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-// MENU
+// ===================================== MENU =====================================
+
 void MagicMenu()
 {
     while (true)
     {
+        Console.WriteLine("============================================================================================");
         Console.WriteLine();
         Console.WriteLine("Please choose one of the following options: ");
         Console.WriteLine("a: View our entire collection of magic products.");
@@ -62,9 +64,50 @@ void MagicMenu()
     }
 }
 
-// ===================================== METHODS FOR MAGIC MENU =====================================
+// ===================================== CRUD METHODS FOR MAGIC MENU =====================================
 
-// STARTUP GREETING AND PROMPT USER TO MAKE A SELECTION IN THE MENU.
+void CreateProduct()
+{
+    while (true)
+    {
+        Console.WriteLine("Please enter the following information about the product:");
+        
+        Console.Write("Product name");
+        string productName = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(productName))
+        {
+            Console.WriteLine("Please enter a valid product name.");
+            continue;
+        }
+        
+        Console.Write("Product type: ");
+        string productType = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(productType))
+        {
+            Console.WriteLine("Please enter a valid product type.");
+            continue;
+        }
+        
+        Console.Write("How much are you wanting? Enter a dollar value. Ex. 29.99: ");
+        decimal productPrice;
+        if (decimal.TryParse(Console.ReadLine(), out productPrice))
+        {
+            Console.WriteLine("Please enter a valid product type.");
+            continue;
+        }
+        
+        // Process information.
+        
+        
+        // Create a new record.
+    }
+};
+
+// ==================== STARTUP GREETING AND PROMPT USER TO MAKE A SELECTION IN THE MENU. ====================
+
 string greeting = "Welcome to Reductio & Absurdum Shop! This is the hot spot for high-quality magic supplies.";
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine("============================================================================================");
 Console.WriteLine(greeting);
 MagicMenu();
