@@ -55,6 +55,7 @@ void MagicMenu()
             case "c":
                 Console.Clear();
                 Console.WriteLine("Update the information: ");
+                UpdateProduct();
                 continue;
             case "d":
                 Console.Clear();
@@ -141,6 +142,49 @@ void DisplayProducts()
     {
         Console.WriteLine($"{product.ProductName} {(product.InStock ? "---- IN STOCK" : "---- SOLD OUT")}");
     }
+}
+
+void UpdateProduct()
+{
+    while (true)
+    {
+        // Loop through product list.
+        Console.WriteLine("Please enter number that corresponds to the product you are wanting to update: ");
+        int counter = 0;
+        foreach (MagicProduct product in magicProducts)
+        {
+            Console.WriteLine($"\t{++counter} -- {product.ProductName}");
+        }
+
+        // Prompt user to enter a number that corresponds to the product they want to update.
+        string? response = Console.ReadLine()?.Trim();
+        
+        if (!int.TryParse(response, out counter) && counter < 1)
+        {
+            Console.WriteLine("Invalid entry. Please pick the number that corresponds to the product.");
+            continue;
+        }
+        
+        // Log the existing data to the console.
+        Console.Write($"Product name: {magicProducts[--counter].ProductName}\n");
+        
+        // Ask user which field they want to update, then prompt user to enter new info for that field.
+        Console.WriteLine("Which field would you like to change? ");
+        Console.WriteLine("1 - Product Name");
+        Console.WriteLine("2 - Product Type");
+        Console.WriteLine("3 - Price");
+        string? fieldToUpdate = Console.ReadLine();
+
+        if (!int.TryParse(fieldToUpdate, out int changeInfo))
+        {
+            Console.WriteLine("Invalid entry. Please pick the number that corresponds to what you are trying to update.");
+            continue;
+        }
+
+        // patchPayload, update record with the new info.
+        break;
+    }
+
 }
 
 // ==================== STARTUP GREETING AND PROMPT USER TO MAKE A SELECTION IN THE MENU. ====================
