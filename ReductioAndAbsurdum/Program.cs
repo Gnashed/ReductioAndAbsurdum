@@ -60,6 +60,7 @@ void MagicMenu()
             case "d":
                 Console.Clear();
                 Console.WriteLine("Which item would you like to remove?");
+                DeleteProduct();
                 continue;
             case "e":
                 Console.Clear();
@@ -217,11 +218,43 @@ void UpdateProduct()
                 magicProducts[counter].Price = Convert.ToDecimal(newPrice);
                 break;
         }
-
-        // patchPayload, update record with the new info.
+        
         break;
     }
+}
 
+void DeleteProduct()
+{
+    while (true)
+    {
+        try
+        {
+            Console.WriteLine("Please enter the number that corresponds to the product you are trying to remove: ");
+            int counter = 0;
+            foreach (MagicProduct product in magicProducts)
+            {
+                Console.WriteLine($"{++counter}. {product.ProductName}");
+            }
+            int response = Convert.ToInt32(Console.ReadLine());
+
+            if (response < 1 || response > magicProducts.Count)
+            {
+                Console.WriteLine("Invalid entry. Please try again.");
+                continue;
+            }
+            // If selection is valid, remove it from the list.
+            MagicProduct chosenProduct = magicProducts[response - 1];
+            magicProducts.Remove(chosenProduct);
+            Console.WriteLine("Removed the product. Here is the updated list:");
+            DisplayProducts();
+            break; //
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Invalid selection. Please pick a number from the list.");
+        }
+    }
+    MagicMenu();
 }
 
 // ==================== STARTUP GREETING AND PROMPT USER TO MAKE A SELECTION IN THE MENU. ====================
