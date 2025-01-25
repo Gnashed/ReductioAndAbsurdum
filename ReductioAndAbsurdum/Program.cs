@@ -251,7 +251,7 @@ void DeleteProduct()
         }
         catch (FormatException)
         {
-            Console.WriteLine("Invalid selection. Please pick a number from the list.");
+            Console.WriteLine("Invalid selection. Please pick a number from the list. ");
         }
     }
     MagicMenu();
