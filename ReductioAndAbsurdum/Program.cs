@@ -6,12 +6,12 @@ using ReductioAndAbsurdum;
 
 List<MagicProduct> magicProducts = new List<MagicProduct>()
 {
-    new MagicProduct(1, "Magic Wand", "Tool", 250.00M, true),
-    new MagicProduct(2, "Spell Book", "Tool", 19.99M, true),
-    new MagicProduct(3, "Crystal ball", "Tool", 100.00M, true),
-    new MagicProduct(4, "Force Field", "Weapon/Defense", 750.00M, true),
-    new MagicProduct(5, "Shape-shifting outfit", "Weapon/Defense", 10_000.00M, true),
-    new MagicProduct(6, "Invisible Cloak", "Weapon/Defense", 1_500.00M, true),
+    new MagicProduct(1, "Magic Wand", "tool", 250.00M, true),
+    new MagicProduct(2, "Spell Book", "tool", 19.99M, true),
+    new MagicProduct(3, "Crystal ball", "tool", 100.00M, true),
+    new MagicProduct(4, "Force Field", "tool", 750.00M, true),
+    new MagicProduct(5, "Shape-shifting outfit", "tool", 10_000.00M, true),
+    new MagicProduct(6, "Invisible Cloak", "tool", 1_500.00M, true),
     new MagicProduct(7, "Reverso - reverses time by a maximum of 5 seconds, once per Earth year.", "spells", 100.00M, true),
     new MagicProduct(8, "Extendu-kno - Increases learning and memorization x5 for one hour each month.", "spells", 299.99M, true),
     new MagicProduct(9, "Anti Peppibism - Gives your victims immense heartburn, indigestion, and diarrhea. ", "spells", 59.00M, true),
@@ -141,7 +141,8 @@ void DisplayProducts()
 {
     foreach (MagicProduct product in magicProducts)
     {
-        Console.WriteLine($"{product.ProductName} {(product.InStock ? $"---- IN STOCK. Price is {product.Price}" : "---- SOLD OUT")}.");
+        Console.WriteLine($"\t{product.ProductName} {(product.InStock ? $"---- IN STOCK. Price is {product.Price}" : 
+            "---- SOLD OUT")}. Type --{product.ProductTypeId}");
     }
 }
 
@@ -196,14 +197,23 @@ void UpdateProduct()
                 magicProducts[counter].ProductName = newProductName;
                 break;
             case "2":
-                Console.WriteLine($"Enter a new product type: ");
+                Console.WriteLine($"Enter a new product type - tool/spell/weapon/food: ");
                 string? newProductType = Console.ReadLine()?.Trim();
                 if (string.IsNullOrWhiteSpace(newProductType))
                 {
-                    Console.WriteLine("Please enter a valid product type.");
+                    Console.WriteLine("Please enter a valid product type. Enter tool/spell/weapon/food:");
                     continue;
                 }
+
+                if (!newProductType.Equals("tool") && !newProductType.Equals("spell") && 
+                    !newProductType.Equals("weapon") && !newProductType.Equals("food"))
+                {
+                    Console.WriteLine("Please enter a valid product type - tool / spell / weapon / food");
+                    Console.WriteLine($"{nameof(newProductType)}: {newProductType}");
+                    break;
+                }
                 // Update record's product type.
+                Console.WriteLine($"{nameof(newProductType)}: {newProductType}");
                 magicProducts[counter].ProductTypeId = newProductType;
                 break;
             case "3":
