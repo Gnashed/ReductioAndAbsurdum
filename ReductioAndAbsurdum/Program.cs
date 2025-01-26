@@ -6,18 +6,18 @@ using ReductioAndAbsurdum;
 
 List<MagicProduct> magicProducts = new List<MagicProduct>()
 {
-    new MagicProduct(1, "Magic Wand", "Tool", 250.00M, true),
-    new MagicProduct(2, "Spell Book", "Tool", 19.99M, true),
-    new MagicProduct(3, "Crystal ball", "Tool", 100.00M, true),
-    new MagicProduct(4, "Force Field", "Weapon/Defense", 750.00M, true),
-    new MagicProduct(5, "Shape-shifting outfit", "Weapon/Defense", 10_000.00M, true),
-    new MagicProduct(6, "Invisible Cloak", "Weapon/Defense", 1_500.00M, true),
+    new MagicProduct(1, "Magic Wand", "tool", 250.00M, true),
+    new MagicProduct(2, "Spell Book", "tool", 19.99M, true),
+    new MagicProduct(3, "Crystal ball", "tool", 100.00M, true),
+    new MagicProduct(4, "Force Field", "tool", 750.00M, true),
+    new MagicProduct(5, "Shape-shifting outfit", "tool", 10_000.00M, true),
+    new MagicProduct(6, "Invisible Cloak", "tool", 1_500.00M, true),
     new MagicProduct(7, "Reverso - reverses time by a maximum of 5 seconds, once per Earth year.", "spells", 100.00M, true),
     new MagicProduct(8, "Extendu-kno - Increases learning and memorization x5 for one hour each month.", "spells", 299.99M, true),
     new MagicProduct(9, "Anti Peppibism - Gives your victims immense heartburn, indigestion, and diarrhea. ", "spells", 59.00M, true),
-    new MagicProduct(10, "Earth Roach", "Food", 0.99M, true),
-    new MagicProduct(11, "Plant-based soup with herbs and spices from planet Zoriah.", "Food", 50.00M, true),
-    new MagicProduct(12, "Rare BBQ Gooper thighs from planet Mars. (preserved since the Martian War of 2799).", "Food", 1250.00M, true),
+    new MagicProduct(10, "Earth Roach", "food", 0.99M, true),
+    new MagicProduct(11, "Plant-based soup with herbs and spices from planet Zoriah.", "food", 50.00M, true),
+    new MagicProduct(12, "Rare BBQ Gooper thighs from planet Mars. (preserved since the Martian War of 2799).", "food", 1250.00M, true),
 };
 
 // ===================================== MENU =====================================
@@ -33,7 +33,7 @@ void MagicMenu()
         Console.WriteLine("b: Add a product to the inventory.");
         Console.WriteLine("c: Update the information of a product in the inventory.");
         Console.WriteLine("d: Remove a product from inventory.");
-        Console.WriteLine("e: <Feature coming soon>");
+        Console.WriteLine("e: Filter products by type.");
         Console.WriteLine("f: <Feature coming soon>");
         Console.WriteLine("g: <Feature coming soon>");
         Console.WriteLine("q: Exit the program.");
@@ -60,10 +60,11 @@ void MagicMenu()
             case "d":
                 Console.Clear();
                 Console.WriteLine("Which item would you like to remove?");
+                DeleteProduct();
                 continue;
             case "e":
                 Console.Clear();
-                Console.WriteLine("This feature is coming soon.");
+                FilterProductList();
                 continue;
             case "f":
                 Console.Clear();
@@ -140,7 +141,8 @@ void DisplayProducts()
 {
     foreach (MagicProduct product in magicProducts)
     {
-        Console.WriteLine($"{product.ProductName} {(product.InStock ? $"---- IN STOCK. Price is {product.Price}" : "---- SOLD OUT")}.");
+        Console.WriteLine($"\t{product.ProductName} {(product.InStock ? $"---- IN STOCK. Price is {product.Price}" : 
+            "---- SOLD OUT")}. Type --{product.ProductTypeId}");
     }
 }
 
@@ -195,14 +197,23 @@ void UpdateProduct()
                 magicProducts[counter].ProductName = newProductName;
                 break;
             case "2":
-                Console.WriteLine($"Enter a new product type: ");
+                Console.WriteLine($"Enter a new product type - tool/spells/weapon/food: ");
                 string? newProductType = Console.ReadLine()?.Trim();
                 if (string.IsNullOrWhiteSpace(newProductType))
                 {
-                    Console.WriteLine("Please enter a valid product type.");
+                    Console.WriteLine("Please enter a valid product type. Enter tool/spells/weapon/food:");
                     continue;
                 }
+
+                if (!newProductType.Equals("tool") && !newProductType.Equals("spells") && 
+                    !newProductType.Equals("weapon") && !newProductType.Equals("food"))
+                {
+                    Console.WriteLine("Please enter a valid product type - tool / spells / weapon / food");
+                    Console.WriteLine($"{nameof(newProductType)}: {newProductType}");
+                    break;
+                }
                 // Update record's product type.
+                Console.WriteLine($"{nameof(newProductType)}: {newProductType}");
                 magicProducts[counter].ProductTypeId = newProductType;
                 break;
             case "3":
@@ -217,11 +228,74 @@ void UpdateProduct()
                 magicProducts[counter].Price = Convert.ToDecimal(newPrice);
                 break;
         }
-
-        // patchPayload, update record with the new info.
+        
         break;
     }
+}
 
+void DeleteProduct()
+{
+    while (true)
+    {
+        try
+        {
+            Console.WriteLine("Please enter the number that corresponds to the product you are trying to remove: ");
+            int counter = 0;
+            foreach (MagicProduct product in magicProducts)
+            {
+                Console.WriteLine($"{++counter}. {product.ProductName}");
+            }
+            int response = Convert.ToInt32(Console.ReadLine());
+
+            if (response < 1 || response > magicProducts.Count)
+            {
+                Console.WriteLine("Invalid entry. Please try again.");
+                continue;
+            }
+            // If selection is valid, remove it from the list.
+            MagicProduct chosenProduct = magicProducts[response - 1];
+            magicProducts.Remove(chosenProduct);
+            Console.WriteLine("Removed the product. Here is the updated list:");
+            DisplayProducts();
+            break; //
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Invalid selection. Please pick a number from the list. ");
+        }
+    }
+    MagicMenu();
+}
+
+void FilterProductList()
+{
+    while (true)
+    {
+        Console.WriteLine("Filter product list by product type - spells / weapon / food / tool ");
+        string? response = Console.ReadLine()?.Trim().ToLower();
+        if (!response.Equals("tool") && !response.Equals("spells") && 
+            !response.Equals("weapon") && !response.Equals("food"))
+        {
+            Console.WriteLine("Please enter a valid product type - tool / spells / weapon / food");
+            Console.WriteLine($"{nameof(response)}: {response}");
+            break;
+        }
+        
+        List<MagicProduct> filteredProducts = new List<MagicProduct>();
+        foreach (MagicProduct product in magicProducts)
+        {
+            if (product.ProductTypeId == response)
+            {
+                filteredProducts.Add(product);
+            }
+        }
+        Console.WriteLine("Filtered products: ");
+        foreach (MagicProduct productObj in filteredProducts)
+        {
+            Console.WriteLine($"\t {productObj.ProductName} {(productObj.InStock ? $"is available for ${productObj.Price}." : "out of stock.")}");
+        }
+        break;
+    }
 }
 
 // ==================== STARTUP GREETING AND PROMPT USER TO MAKE A SELECTION IN THE MENU. ====================
