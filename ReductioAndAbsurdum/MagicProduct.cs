@@ -7,6 +7,15 @@ public class MagicProduct
     public decimal Price { get; set; }
     public bool InStock { get; set; }
     public string ProductTypeId { get; set; }
+    public DateTime DateStocked { get; set; }
+    public int DaysOnShelf
+    {
+        get
+        {
+            TimeSpan timeOnShelf = DateTime.Now - DateStocked;
+            return timeOnShelf.Days;
+        }
+    }
     
     // Constructor
     public MagicProduct
@@ -15,7 +24,9 @@ public class MagicProduct
         string productName,
         string productTypeId,
         decimal price,
-        bool inStock
+        bool inStock,
+        DateTime dateStocked,
+        int daysOnShelf
     )
     {
         // Validate before constructing objects.
@@ -28,5 +39,6 @@ public class MagicProduct
         Price = price;
         InStock = inStock;
         ProductId = productId;
+        DateStocked = dateStocked;
     }
 }

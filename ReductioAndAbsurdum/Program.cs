@@ -6,18 +6,18 @@ using ReductioAndAbsurdum;
 
 List<MagicProduct> magicProducts = new List<MagicProduct>()
 {
-    new MagicProduct(1, "Magic Wand", "tool", 250.00M, true),
-    new MagicProduct(2, "Spell Book", "tool", 19.99M, true),
-    new MagicProduct(3, "Crystal ball", "tool", 100.00M, true),
-    new MagicProduct(4, "Force Field", "tool", 750.00M, true),
-    new MagicProduct(5, "Shape-shifting outfit", "tool", 10_000.00M, true),
-    new MagicProduct(6, "Invisible Cloak", "tool", 1_500.00M, true),
-    new MagicProduct(7, "Reverso - reverses time by a maximum of 5 seconds, once per Earth year.", "spells", 100.00M, true),
-    new MagicProduct(8, "Extendu-kno - Increases learning and memorization x5 for one hour each month.", "spells", 299.99M, true),
-    new MagicProduct(9, "Anti Peppibism - Gives your victims immense heartburn, indigestion, and diarrhea. ", "spells", 59.00M, true),
-    new MagicProduct(10, "Earth Roach", "food", 0.99M, true),
-    new MagicProduct(11, "Plant-based soup with herbs and spices from planet Zoriah.", "food", 50.00M, true),
-    new MagicProduct(12, "Rare BBQ Gooper thighs from planet Mars. (preserved since the Martian War of 2799).", "food", 1250.00M, true),
+    new MagicProduct(1, "Magic Wand", "tool", 250.00M, true, new DateTime(2025, 1, 25), 23),
+    new MagicProduct(2, "Spell Book", "tool", 19.99M, true, new DateTime(2025, 1, 25), 23),
+    new MagicProduct(3, "Crystal ball", "tool", 100.00M, true, new DateTime(2024, 9, 29), 119),
+    new MagicProduct(4, "Force Field", "tool", 750.00M, true, new DateTime(2024, 9, 29), 119),
+    new MagicProduct(5, "Shape-shifting outfit", "tool", 10_000.00M, true, new DateTime(2024, 9, 20), 110),
+    new MagicProduct(6, "Invisible Cloak", "tool", 1_500.00M, true, new DateTime(2024, 9, 20), 110),
+    new MagicProduct(7, "Reverso - reverses time by a maximum of 5 seconds, once per Earth year.", "spells", 100.00M, true, new DateTime(2024, 9, 20), 110),
+    new MagicProduct(8, "Extendu-kno - Increases learning and memorization x5 for one hour each month.", "spells", 299.99M, true, new DateTime(2024, 9, 20), 110),
+    new MagicProduct(9, "Anti Peppibism - Gives your victims immense heartburn, indigestion, and diarrhea. ", "spells", 59.00M, true, new DateTime(2024, 9, 20), 110),
+    new MagicProduct(10, "Earth Roach", "food", 0.99M, true, new DateTime(2024, 8, 30), 90),
+    new MagicProduct(11, "Plant-based soup with herbs and spices from planet Zoriah.", "food", 50.00M, true, new DateTime(2024, 8, 30), 90),
+    new MagicProduct(12, "Rare BBQ Gooper thighs from planet Mars. (preserved since the Martian War of 2799).", "food", 1250.00M, true, new DateTime(2024, 8, 30), 90),
 };
 
 // ===================================== MENU =====================================
@@ -126,7 +126,7 @@ void CreateProduct()
         
         // Payload
         MagicProduct payload =
-            new MagicProduct((magicProducts.Count + 1), productName, productType, productPrice, true);
+            new MagicProduct((magicProducts.Count + 1), productName, productType, productPrice, true, new DateTime().Date, 0);
 
         // Create a new record.
         magicProducts.Add(payload);
@@ -143,6 +143,8 @@ void DisplayProducts()
     {
         Console.WriteLine($"\t{product.ProductName} {(product.InStock ? $"---- IN STOCK. Price is {product.Price}" : 
             "---- SOLD OUT")}. Type --{product.ProductTypeId}");
+        Console.WriteLine($"\t\tThis product was listed on {product.DateStocked} and has been " +
+                          $"in stock for {product.DaysOnShelf} days.");
     }
 }
 
@@ -292,7 +294,8 @@ void FilterProductList()
         Console.WriteLine("Filtered products: ");
         foreach (MagicProduct productObj in filteredProducts)
         {
-            Console.WriteLine($"\t {productObj.ProductName} {(productObj.InStock ? $"is available for ${productObj.Price}." : "out of stock.")}");
+            Console.WriteLine($"\t {productObj.ProductName} {(productObj.InStock ? $"is available for $" +
+                $"{productObj.Price}." : "out of stock.")}");
         }
         break;
     }
