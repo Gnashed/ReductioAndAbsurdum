@@ -146,6 +146,9 @@ void DisplayProducts()
         Console.WriteLine($"\t\tThis product was listed on {product.DateStocked} and has been " +
                           $"in stock for {product.DaysOnShelf} days.");
     }
+    // List<MagicProduct> productsInStock = magicProducts.Where(mp => mp.InStock).ToList();
+    // foreach (MagicProduct product in magicProducts)
+    //     Console.WriteLine($"\n{product.ProductName}");
 }
 
 void UpdateProduct()
